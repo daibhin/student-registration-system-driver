@@ -13,6 +13,32 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  
+  <build>
+    <plugins>
+      <plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-shade-plugin</artifactId>
+		  <version>2.3</version>
+		  <executions>
+		    <execution>
+			  <phase>package</phase>
+			  <goals>
+			    <goal>shade</goal>
+			  </goals>
+			  <configuration>
+			  	<createDependencyReducedPom>false</createDependencyReducedPom>
+			    <transformers>
+			      <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+				    <mainClass>io.github.daibhin.student_registration_system_driver.RegistationDriver</mainClass>
+				  </transformer>
+			    </transformers>
+			  </configuration>
+		    </execution>
+		  </executions>
+		</plugin>
+    </plugins>
+  </build>
 
   <dependencies>
     <dependency>
@@ -21,10 +47,10 @@
       <version>4.12</version>
     </dependency>
     <dependency>
-	  <groupId>com.github.daibhin</groupId>
-	  <artifactId>student-registration-system</artifactId>
-	  <version>v1.0</version>
-	</dependency>
+      <groupId>com.github.daibhin</groupId>
+      <artifactId>student-registration-system</artifactId>
+      <version>v1.3</version>
+    </dependency>
   </dependencies>
   
   <repositories>
