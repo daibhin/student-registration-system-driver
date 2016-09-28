@@ -47,16 +47,17 @@
       <version>4.12</version>
     </dependency>
     <dependency>
-      <groupId>com.github.daibhin</groupId>
+      <groupId>io.github.daibhin</groupId>
       <artifactId>student-registration-system</artifactId>
-      <version>v1.3</version>
+      <version>1.3</version>
     </dependency>
   </dependencies>
   
   <repositories>
-	<repository>
-	  <id>jitpack.io</id>
-	  <url>https://jitpack.io</url>
-	</repository>
+	  <repository>
+	        <id>dropbox-mvn-repo</id>
+	        <name>MavenDropboxRepository</name>
+	        <url>https://www.dropbox.com/sh/bpqgi15eno308w8/AADDKNT4XOS71FQyKTr_glEva?dl=0</url>
+	    </repository>
   </repositories>
 </project>

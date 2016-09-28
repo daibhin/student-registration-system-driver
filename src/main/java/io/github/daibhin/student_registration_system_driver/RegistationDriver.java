@@ -8,50 +8,75 @@ import org.joda.time.LocalDate;
 import io.github.daibhin.student_registration_system.*;
 
 public class RegistationDriver {
-	
+
 	public static void main(String[] args) {
-		
-		ArrayList<Student> students = new ArrayList<Student>();
-		for (int i = 0; i < 100; i++) {
-			LocalDate dob = new LocalDate(1995, 05, 25);
-			Student student = new Student("David Newell", 21, dob, i+1);
-			students.add(student);
-		}
-		
-		ArrayList<Module> modules = new ArrayList<Module>();
-		modules.add(new Module("Software Engineering", "CT417", students));
-		modules.add(new Module("Machine Learning", "CT123", students));
-		modules.add(new Module("Programming", "CT456", students));
-		modules.add(new Module("Databases", "CT789", students));
-		
+
+		Module databases = new Module("Databases", "CT123");
+		Module telecommunications = new Module("Telecommunications", "CT456");
+		Module softwareEngineering = new Module("Software Engineering", "CT789");
+		Module machineLearning = new Module("Machine Learning", "CT321");
+
+		ArrayList<Module> computerScienceModules = new ArrayList<Module>();
+		computerScienceModules.add(databases);
+		computerScienceModules.add(softwareEngineering);
+		computerScienceModules.add(machineLearning);
+
+		ArrayList<Module> engineeringModules = new ArrayList<Module>();
+		engineeringModules.add(telecommunications);
+		engineeringModules.add(softwareEngineering);
+		engineeringModules.add(machineLearning);
+
+//		Create courses
 		LocalDate startDate = new LocalDate(2013, 9, 1);
 		LocalDate endDate = new LocalDate(2017, 5, 31);
-		CourseProgramme engineering = new CourseProgramme("Electronic and Computer Engineering",
-														  modules,
-														  startDate,
-														  endDate);
-		
-		
-		printCourseProgrammeStudents(engineering);
+		CourseProgramme computerScience = new CourseProgramme("Computer Science", computerScienceModules, startDate, endDate);
+		CourseProgramme engineering = new CourseProgramme("Electronic and Computer Engineering", engineeringModules, startDate, endDate);
+
+//		Create students
+		Student student1 = new Student("David Newell", 21, new LocalDate(1995, 05, 25), 1);
+		Student student2 = new Student("Bruce Wayne", 21, new LocalDate(1994, 7, 28), 2);
+		Student student3 = new Student("Steven Rogers", 21, new LocalDate(1900, 6, 9), 3);
+
+		Student student4 = new Student("Phillip Urich", 21, new LocalDate(1992, 1, 28), 4);
+		Student student5 = new Student("Harvey Dent", 21, new LocalDate(1991, 9, 14), 5);
+		Student student6 = new Student("Bruce Banner", 21, new LocalDate(1985, 06, 5), 6);
+
+		ArrayList<Student> computerScienceStudents = new ArrayList<Student>();
+		computerScienceStudents.add(student1);
+		computerScienceStudents.add(student2);
+		computerScienceStudents.add(student3);
+
+		ArrayList<Student> engineeringStudents = new ArrayList<Student>();
+		engineeringStudents.add(student4);
+		engineeringStudents.add(student5);
+		engineeringStudents.add(student6);
+
+		enrollStudents(computerScienceStudents, computerScienceModules, computerScience);
+		enrollStudents(engineeringStudents, engineeringModules, engineering);
+
+		printStudents(computerScienceStudents);
+		printStudents(engineeringStudents);
 	}
-	
-	public static void printCourseProgrammeStudents(CourseProgramme course) {
-		ArrayList<Student> courseStudents = new ArrayList<Student>();
-		
-		for(Module module: course.getModules()) {
-			courseStudents.addAll(module.getStudents());
+
+	public static void enrollStudents(ArrayList<Student> students, ArrayList<Module> modules, CourseProgramme course) {
+		for(Module module : modules) {
+			module.addStudents(students);
 		}
-		
-		for(Student student : courseStudents) {
-			ArrayList<Module> studentModules = student.getModules(course.getModules());
-			
+		for(Student student : students) {
+			student.enroll(course);
+		}
+	}
+
+	public static void printStudents(ArrayList<Student> students) {
+		for(Student student : students) {
 			printStudentPersonalDetails(student);
-			System.out.println("Modules:" + getModuleNames(studentModules));
+			CourseProgramme course = student.getCourse();
 			System.out.println("Course Programme: " + course.getName());
+			System.out.println("Modules:" + formattedModuleNames(course.getModules()));
 			System.out.println("\n");
 		}
 	}
-	
+
 	public static void printStudentPersonalDetails(Student student) {
 		System.out.println("Name: " + student.getName());
 		System.out.println("Id: " + student.getId());
@@ -60,7 +85,7 @@ public class RegistationDriver {
 		System.out.println("Username: " + student.getUsername());
 	}
 
-	public static String getModuleNames(ArrayList<Module> modules) {
+	public static String formattedModuleNames(ArrayList<Module> modules) {
 		String moduleList = "";
 		for(Module module : modules) {
 			moduleList += " [" + module.getName() + "]";
